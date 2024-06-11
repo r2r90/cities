@@ -1,1 +1,1 @@
-REad me file
+Read me file
