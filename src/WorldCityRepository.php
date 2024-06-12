@@ -9,6 +9,37 @@ class WorldCityRepository
 
     }
 
+    public function update(int $id, array $props)
+    {
+        /*'city' => $city,
+        'ascii' => $ascii,
+        'country' => $country,
+        'iso2' => $iso2,
+        'population' => $population*/
+
+        $stmt = $this->pdo->prepare(
+            'UPDATE `worldcities` 
+                        SET 
+                          `city` = :city, 
+                          `city_ascii` = :cityAscii,
+                          `country` = :country,
+                          `iso2` = :iso2, 
+                          `population` = :population 
+                          WHERE 
+                              `id` = :id
+        ');
+
+        $stmt->bindValue(":id", $id);
+        $stmt->bindValue(':city', $props['city']);
+        $stmt->bindValue(':cityAscii', $props['cityAscii']);
+        $stmt->bindValue(':country', $props['country']);
+        $stmt->bindValue(':iso2', $props['iso2']);
+        $stmt->bindValue(':population', $props['population']);
+        $stmt->execute();
+
+        return $this->fetchById($id);
+    }
+
     private function arrayToModel(array $entry): WorldCityModel
     {
         return new WorldCityModel(
